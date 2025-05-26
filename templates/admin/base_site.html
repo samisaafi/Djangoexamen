@@ -1,0 +1,29 @@
+{# templates/admin/base_site.html #}
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {# Load active theme CSS if available #}
+    {% if active_admin_theme and active_admin_theme.css_url %}
+        <link rel="stylesheet" type="text/css" href="{{ active_admin_theme.css_url }}">
+    {% endif %}
+    <style>
+        /* Add any default or custom CSS here */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    </style>
+{% endblock %}
+
+{% block extrabody %}
+    {{ block.super }}
+    {# Load active theme JS if available #}
+    {% if active_admin_theme and active_admin_theme.js_url %}
+        <script src="{{ active_admin_theme.js_url }}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block title %}{{ title }} | {{ custom_admin_site.site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ custom_admin_site.site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}

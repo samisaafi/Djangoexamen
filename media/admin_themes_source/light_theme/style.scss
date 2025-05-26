@@ -1,0 +1,12 @@
+$bg-color: #f8f9fa;
+$text-color: #333;
+$link-color: #007bff;
+
+body {
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+a {
+    color: $link-color;
+}

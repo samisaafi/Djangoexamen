@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Login | Django</title>
+    <link rel="stylesheet" href="{% static 'admin/css/login.css' %}" />
+</head>
+<body>
+    <div class="container">
+        <form method="post" action="{% url 'admin:login' %}">
+            {% csrf_token %}
+            <h2> Login</h2>
+
+            {% if form.errors %}
+                <p style="color: red;">Invalid username or password. Please try again.</p>
+            {% endif %}
+
+            <div class="input-field">
+                <input type="text" name="username" required />
+                <label>Enter Username</label>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" required />
+                <label>Enter Password</label>
+            </div>
+
+            <input type="hidden" name="next" value="{% url 'admin:index' %}">
+
+            <div class="forget">
+                <label for="Save-login">
+                    <input type="checkbox" id="Save-login" name="remember_me" />
+                    <p>Save login information</p>
+                </label>
+            </div>
+
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+</body>
+</html>

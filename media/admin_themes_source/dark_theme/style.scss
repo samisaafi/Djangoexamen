@@ -1,0 +1,16 @@
+$bg-color: #333;
+$text-color: #eee;
+$link-color: #00bcd4;
+
+body {
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+a {
+    color: $link-color;
+}
+
+.admin-logo {
+    filter: invert(1);
+}

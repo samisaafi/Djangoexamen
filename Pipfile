@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pillow = "*"
+django-jazzmin = "*"
+argon2-cffi = "*"
+django = "*"
+djangorestframework = "*"
+celery = "*"
+redis = "*"
+graphene-django = "*"
+graphene = "*"
+colormath = "*"
+webcolors = "*"
+django-graphql-jwt = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
