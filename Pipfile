@@ -17,6 +17,7 @@ colormath = "*"
 webcolors = "*"
 djangorestframework-simplejwt = "*"
 django-graphql-jwt = "*"
+pipfile = "*"
 
 [dev-packages]
 
