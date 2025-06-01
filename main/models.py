@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator,MaxValueValidator,MinValueValidator,FileExtensionValidator
 from datetime import datetime as dt, timedelta as td
 from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 class Person(models.Model):
     name=models.CharField(max_length=50)
     familyName=models.CharField(max_length=50)
@@ -126,3 +127,26 @@ class Enrollment(models.Model):
             name="unique_enrollment_student_course"
         )]
         ordering=["registrationDate"]
+
+class AdminTheme(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    css_url = models.URLField(blank=True, null=True, validators=[URLValidator()])
+    js_url = models.URLField(blank=True, null=True, validators=[URLValidator()])
+    scss_file = models.FileField(upload_to='admin_themes_source/%Y/%m/%d/', blank=True, null=True, validators=[FileExtensionValidator(['scss'])])
+    js_file = models.FileField(upload_to='admin_themes_source/%Y/%m/%d/', blank=True, null=True, validators=[FileExtensionValidator(['js'])])
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    accessibility_suggestions = models.TextField(blank=True, null=True)
+
+    def clean(self):
+        if self.css_url and not self.css_url.endswith('.css'):
+            raise ValidationError({'css_url': 'CSS URL must end with .css'})
+        if self.js_url and not self.js_url.endswith('.js'):
+            raise ValidationError({'js_url': 'JS URL must end with .js'})
+        if not (self.css_url or self.scss_file):
+            raise ValidationError('Either a CSS URL or an SCSS file must be provided.')
+        if not (self.js_url or self.js_file):
+            raise ValidationError('Either a JS URL or a JS file must be provided.')
+
+    def __str__(self):
+        return self.name

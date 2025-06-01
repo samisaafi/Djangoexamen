@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from main.hashers import CustomArgon2PasswordHasher
 
@@ -18,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Media files (for user-uploaded content like custom themes)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Or Path(BASE_DIR) / 'media'
+MEDIA_ROOT = Path(BASE_DIR) / 'media'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -43,8 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'admin_themes',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'graphene',
     'graphene_django',
     'celery',
@@ -90,7 +92,7 @@ JAZZMIN_UI_TWEAKS = {
     "brand_small_text": False,
     "brand_colour": "navbar-primary",
     "accent": "accent-primary",
-    "navbar": "navbar-white navbar-light",
+    "navbar": "navbar-dark navbar-dark",
     "no_navbar_border": False,
     "navbar_fixed": False,
     "layout_boxed": False,
@@ -103,8 +105,8 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "default",
-    "dark_mode_theme": None,
+    "theme": "darkly",
+    "dark_mode_theme": 'darkly',
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -209,3 +211,49 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Tunis' # Changed to Tunisia's timezone for better local context
 # --- End Celery Configuration ---
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'main.context_processors.active_admin_theme',  # Add this
+            ],
+        },
+    },
+]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+}
+GRAPHENE = {
+    'SCHEMA': 'DJANGO_DS_MAIN.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

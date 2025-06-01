@@ -15,6 +15,7 @@ graphene-django = "*"
 graphene = "*"
 colormath = "*"
 webcolors = "*"
+djangorestframework-simplejwt = "*"
 django-graphql-jwt = "*"
 
 [dev-packages]
