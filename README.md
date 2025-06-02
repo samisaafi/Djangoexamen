@@ -1,21 +1,20 @@
-# Django Project Setup with Pipenv
+# Run an Existing Django Project with Pipenv
 
-This guide outlines the steps to set up a Django project using **Pipenv** for dependency management.
+This guide explains how to set up and run an existing Django project using **Pipenv**.
 
 ---
 
 ## 📦 Prerequisites
 
-- Python 3.x installed
-- Pipenv installed (`pip install pipenv`)
+- Python 3.x installed  
+- Pipenv installed (`pip install pipenv`)  
+- Django project files present (with `manage.py`, `Pipfile`, etc.)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Setup Steps
 
-### 1. Install Pipenv
-
-If Pipenv is not already installed:
+### 1. Install Pipenv (if not installed)
 
 ```bash
 pip install pipenv
@@ -23,44 +22,23 @@ pip install pipenv
 
 ---
 
-### 2. Create and Navigate to Project Directory
+### 2. Navigate to the Project Directory
 
 ```bash
-mkdir my_django_project
-cd my_django_project
+cd path/to/your/project
 ```
 
 ---
 
-### 3. Initialize a Pipenv Environment
-
-Replace `3.x` with your Python version:
+### 3. Install Dependencies from Pipfile
 
 ```bash
-pipenv --python 3.x
+pipenv install
 ```
 
 ---
 
-### 4. Install Django
-
-```bash
-pipenv install django
-```
-
----
-
-### 5. Create a New Django Project
-
-```bash
-pipenv run django-admin startproject myproject
-```
-
-> This will create a Django project inside the current directory.
-
----
-
-### 6. Activate the Pipenv Shell
+### 4. Activate the Pipenv Shell
 
 ```bash
 pipenv shell
@@ -68,23 +46,7 @@ pipenv shell
 
 ---
 
-### 7. Install Additional Dependencies (if needed)
-
-If you have a `Pipfile` or `requirements.txt`:
-
-```bash
-pipenv install
-```
-
-To install a specific package:
-
-```bash
-pipenv install package_name
-```
-
----
-
-### 8. Run Migrations
+### 5. Apply Migrations
 
 ```bash
 python manage.py migrate
@@ -92,7 +54,7 @@ python manage.py migrate
 
 ---
 
-### 9. Start the Development Server
+### 6. Run the Development Server
 
 ```bash
 python manage.py runserver
@@ -100,6 +62,6 @@ python manage.py runserver
 
 ---
 
-## ✅ Summary
+## ✅ Done
 
-You now have a fully functional Django project set up with Pipenv! Use `pipenv shell` to activate your environment and continue development.
+Your Django project is now running. Open `http://127.0.0.1:8000/` in your browser to see it in action.
